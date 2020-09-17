@@ -6,7 +6,8 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "noImplicitAny": false
   },
   "exclude": ["node_modules", "dist"],
   "include": ["src/**/*"]
