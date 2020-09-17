@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+- 12
+cache:
+  yarn: true
+install:
+- yarn --frozen-lockfile
+script:
+- yarn test:cov
+deploy:
+  provider: heroku
+  api_key:
+    secure: HXmQEs5zQmyUZyd7MwYfqzlVRrUPPRQjK7wCmgirjafdiWinuWqhTypS6XHQYlQjZ1eMMGrFpE7N1A1TUGUJwIfJsth3kfcDL/GIPDUokiva/A1LNzfMY4+BsSWk1C0kTP/jv4Z66QtS5zvN0jo4Mj7RgKNM2Te5blLLF024rpme33jHrvLvnvQK/3hIstA1jEby1ZOdNtPEOnBwGtNn2OifNi/K6RqRWSgsWWX3LaR0MoyTTzxhDlTSZZMoy+T1hGMVKJ3FlrHHc7bw5MQDKUlFZ2l1cms7smfjgyhGOB6XhDBrXQr6IeFZmnfMjWWOvR52qgDXMLuJtGqXY2OOJQspDxcWyEE7S2XtjnkJZJSjqBgoenaMj7qgv69Z/OK/nl5UzbDQDutIGBxC8a1omZx1DrrC46W6Gwf5JQ2iPjE0txI3NB9bPM5+C92qdOttZDSw8vh9VS9aS5/PFJBNJQlUcrSCYiLMdUPQ6qfkzl975GZTGx5aPm2OjwZ+xH6HGNE5KfUhcWv/vm8pB/X0v2fsT29axLQES4lFlHFvUsepMO1t5GDP6lO9jvTg6YDvZ+vL6Ma2o12oZodzPTsB16d2wVvydIdESyIME680f0c5q2zYwOmurkC4EvkWD3YtRAfkzgTeJn2cgOQxJMxC+VuY2oSjF8fTmfeQDkngx3w=
+  app: nodejs-users-api
+  on:
+    repo: jrmmendes/nodejs-users-api
+    branch: main
+  skip_cleanup: 'true'
