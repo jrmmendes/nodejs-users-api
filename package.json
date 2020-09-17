@@ -6,10 +6,12 @@
   "author": "Romildo Júnior <jrmmendes@outlook.com>",
   "license": "MIT",
   "scripts": {
-    "start:prod": "node dist/main"
+    "start:prod": "node dist/main",
+    "build": "gulp build"
   },
   "devDependencies": {
     "@types/gulp": "^4.0.6",
+    "@types/gulp-nodemon": "^0.0.32",
     "@typescript-eslint/eslint-plugin": "^4.1.1",
     "@typescript-eslint/parser": "^4.1.1",
     "eslint": "^7.9.0",
@@ -17,6 +19,7 @@
     "eslint-plugin-import": "^2.22.0",
     "gulp": "^4.0.2",
     "gulp-eslint": "^6.0.0",
+    "gulp-nodemon": "^2.5.0",
     "gulp-typescript": "^6.0.0-alpha.1",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.2"
