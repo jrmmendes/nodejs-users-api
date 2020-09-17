@@ -7,7 +7,10 @@
   "license": "MIT",
   "scripts": {
     "start:prod": "node dist/main",
-    "build": "gulp build"
+    "start:dev": "clear; gulp startNodemon",
+    "clean": "gulp clean",
+    "build": "gulp build",
+    "build:watch": "gulp watch"
   },
   "devDependencies": {
     "@types/gulp": "^4.0.6",
@@ -22,9 +25,7 @@
     "gulp-nodemon": "^2.5.0",
     "gulp-typescript": "^6.0.0-alpha.1",
     "ts-node": "^9.0.0",
-    "typescript": "^4.0.2"
-  },
-  "dependencies": {
+    "typescript": "^4.0.2",
     "del": "^5.1.0"
   }
 }
