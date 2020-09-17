@@ -1,0 +1,11 @@
+{
+  "name": "nodejs-users-api",
+  "version": "1.0.0",
+  "description": "Simple SignIn/SignUp crud",
+  "repository": "git@github.com:jrmmendes/nodejs-users-api.git",
+  "author": "Romildo Júnior <jrmmendes@outlook.com>",
+  "license": "MIT",
+  "scripts": {
+    "start:prod": "node dist/main"
+  }
+}
