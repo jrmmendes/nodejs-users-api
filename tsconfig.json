@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "types": ["reflect-metadata"],
+    "types": ["jest", "reflect-metadata"],
     "allowJs": true,
     "outDir": "./dist",
     "baseUrl": "./",
