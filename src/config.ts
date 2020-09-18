@@ -3,13 +3,9 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 
-export function createApplication() {
-  const app = express();
-  
+export const configure = (app: Application) => {
   app.use(cors());
   app.use(helmet());
   app.use(morgan('dev'));
   app.use(express.json());
-
-  return app;
 }
