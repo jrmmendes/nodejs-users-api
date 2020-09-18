@@ -1,13 +1,17 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "commonjs",
+    "types": ["reflect-metadata"],
     "allowJs": true,
     "outDir": "./dist",
     "baseUrl": "./",
     "strict": true,
+    "module": "commonjs",
     "esModuleInterop": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "exclude": ["node_modules", "dist"],
   "include": ["src/**/*"]
