@@ -1,17 +1,10 @@
-import 'reflect-metadata';
-import './ioc';
+import { load } from '~core/environment';
+import { bootstrap } from './application';
 
-import { Container } from 'inversify';
-import { InversifyExpressServer } from 'inversify-express-utils';
-import { configure } from './config';
-import { ExampleService } from './example/example.service';
-import { TYPES } from './types';
+load(`.env.${process.env.NODE_ENV}`);
+const app = bootstrap();
 
-const container = new Container();
-container.bind<ExampleService>(TYPES.ExampleService).to(ExampleService);
-
-const server = new InversifyExpressServer(container);
-server.setConfig(configure);
-
-const app = server.build();
-app.listen(process.env.PORT || 3000, () => console.log('Ready'));
+app.listen(
+  process.env.PORT || 3000,
+  () => console.log('[ Ready ]')
+);
