@@ -10,4 +10,5 @@ Essa é uma API NodeJS que utiliza TypeScript, Inversify e MongoDB para criaçã
 
 # Licensa
 > Você pode ler a licença completa [aqui](https://github.com/jrmmendes/nodejs-users-api/LICENSE.md)
+
 Esse projeto é licenciado nos termos da licença **MIT**
