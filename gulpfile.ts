@@ -27,7 +27,6 @@ export function watch() {
 }
 
 export function startNodemon() {
-  compile();
   return nodemon({
     script: 'dist/main.js',
     ext: 'ts',
