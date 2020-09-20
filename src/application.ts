@@ -1,14 +1,12 @@
-import 'reflect-metadata';
-
 import cors from 'cors';
 import express, { Application } from 'express';
 import helmet from 'helmet';
 import { Container } from 'inversify';
 import { InversifyExpressServer } from 'inversify-express-utils';
 import morgan from 'morgan';
-
+import 'reflect-metadata';
 import { TYPES } from '~core/types';
-
+import './example/example.controller';
 import { ExampleService } from './example/example.service';
 
 const buildDependencyContainer = () => {

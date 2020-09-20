@@ -1,10 +1,11 @@
 import del from 'del';
 import gulp, { dest, series, src } from 'gulp';
-import eslint from 'gulp-eslint';
-import tsc from 'gulp-typescript';
+import eslint from 'gulp-eslint'; 
+import alias from 'gulp-ts-alias';
+import typescript from 'gulp-typescript';
 import nodemon from 'gulp-nodemon';
 
-const tsProject = tsc.createProject('tsconfig.json', { noImplicitAny: true });
+const project = typescript.createProject('tsconfig.json', { noImplicitAny: true });
 
 export function clean() {
   return del(['./dist/**']);
@@ -17,9 +18,12 @@ export function lint() {
 }
 
 export function compile() {
-  return src('./src/**/*.ts')
-    .pipe(tsProject())
-    .pipe(dest('dist'));
+  const compiled = src('./src/**/*.ts')
+    .pipe(alias({ configuration: project.config }))
+    .pipe(project());
+
+    return compiled.js
+      .pipe(dest('dist'));
 }
 
 export function watch() {

@@ -33,6 +33,7 @@
     "gulp": "^4.0.2",
     "gulp-eslint": "^6.0.0",
     "gulp-nodemon": "^2.5.0",
+    "gulp-ts-alias": "^1.1.0",
     "gulp-typescript": "^6.0.0-alpha.1",
     "jest": "^26.4.2",
     "ts-jest": "^26.3.0",

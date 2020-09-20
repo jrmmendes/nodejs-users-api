@@ -1,10 +1,12 @@
 import { load } from '~core/environment';
 import { bootstrap } from './application';
 
-load(`.env.${process.env.NODE_ENV}`);
+load('.env');
 const app = bootstrap();
 
 app.listen(
   process.env.PORT || 3000,
-  () => console.log('[ Ready ]')
+  () => {
+    console.log('[ Ready ] S:', process.env.APP_SECRET)
+  }
 );
