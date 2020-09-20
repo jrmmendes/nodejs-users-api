@@ -5,8 +5,15 @@ NodeJS Users API
 
 Essa é uma API NodeJS que utiliza TypeScript, Inversify e MongoDB para criação de usuários e geração de tokens para acesso a rotas protegidas.
 
+---
+
 # Setup
 (WIP)
+
+# Utilização
+(WIP)
+
+---
 
 # Licença
 > Você pode ler a licença completa [aqui](https://github.com/jrmmendes/nodejs-users-api/LICENSE.md)
