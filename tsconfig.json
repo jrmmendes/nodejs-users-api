@@ -11,7 +11,10 @@
     "noImplicitAny": false,
     "moduleResolution": "node",
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "paths": {
+      "~core/*": ["src/core/*"]
+    }
   },
   "exclude": ["node_modules", "dist"],
   "include": ["src/**/*"]
