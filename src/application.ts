@@ -4,22 +4,9 @@ import helmet from 'helmet';
 import { Container } from 'inversify';
 import { InversifyExpressServer } from 'inversify-express-utils';
 import morgan from 'morgan';
-import 'reflect-metadata';
-import { TYPES } from '~core/types';
-import './example/example.controller';
-import { ExampleService } from './example/example.service';
 
-const buildDependencyContainer = () => {
-  const container = new Container();
-  container
-    .bind<ExampleService>(TYPES.ExampleService)
-    .to(ExampleService);
-  
-  return container;
-}
-
-export const bootstrap = (): Application => {
-  const app = new InversifyExpressServer(buildDependencyContainer());
+export const bootstrap = (container: Container): Application => {
+  const app = new InversifyExpressServer(container);
   app.setConfig(app => {
     app.use(cors());
     app.use(helmet());
