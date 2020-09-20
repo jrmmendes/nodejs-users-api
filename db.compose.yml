@@ -3,7 +3,7 @@ version: '3.1'
 services:
   mongo:
     image: mongo
-    container_name: nodes-users-db
+    container_name: node-api-db
     command: [--auth]
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
