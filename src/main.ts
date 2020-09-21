@@ -1,7 +1,6 @@
-import 'reflect-metadata';
 import { load as loadEnvironment } from '~/core/environment';
 import { bootstrap } from './application';
-import { getDependencyContainer } from '~/core/dependency-injection';
+import container from '~/core/inversify.config';
 import { connectToDatabase, DatabaseClient } from '~/core/database';
 import { Types } from '~/core/types';
 
@@ -9,7 +8,6 @@ loadEnvironment('.env');
 
 connectToDatabase(process.env.DATABASE_URL || '')
 .then((client) => {
-  const container = getDependencyContainer();
   container
   .bind<DatabaseClient>(Types.DatabaseClient)
   .toConstantValue(client)
