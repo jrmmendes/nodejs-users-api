@@ -1,6 +1,6 @@
 import { inject } from "inversify";
 import { BaseHttpController, controller, httpGet, httpPost, requestBody } from "inversify-express-utils";
-import { BadRequestErrorMessageResult, JsonResult } from "inversify-express-utils/dts/results";
+import { JsonResult } from "inversify-express-utils/dts/results";
 import { Types } from "~/core/types";
 import { User, UserCredentials, UserRegisterData } from "./users.entity";
 import { UserService } from "./users.service";
@@ -14,9 +14,9 @@ export class UserControler extends BaseHttpController {
   }
 
   @httpPost('/sign-up')
-  async signUp(@requestBody() data: UserRegisterData): Promise<any> {
+    async signUp(@requestBody() data: UserRegisterData): Promise<any> {
     if (this.service.isEmailRegistered(data.email)) {
-      return this.json({ mensagem: 'E-mail já existente' }, 400);
+      return this.json({ mensagem: 'E-mail já existente' }, 401);
     }
 
     const user = await this.service.registerUser(data);
@@ -39,7 +39,7 @@ export class UserControler extends BaseHttpController {
   @httpPost('/sign-in')
   async signIn(@requestBody() credentials: UserCredentials): Promise<User| JsonResult> {
     if (!await this.service.isEmailRegistered(credentials.email)) {
-      return this.json({ mensagem: 'Usuário e/ou senha inválidos' }, 400);
+      return this.json({ mensagem: 'Usuário e/ou senha inválidos' }, 401);
     }
 
     return {} as User;
