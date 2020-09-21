@@ -1,9 +1,9 @@
+import faker from 'faker';
 import { UserRegisterData } from "./users.entity";
 import { UserRepository } from "./users.repository";
 import { UserService } from "./users.service";
-import faker from 'faker';
 
-describe('User Service -> Managing Users', () => {
+describe('User Service', () => {
   let repositoryMock: UserRepository;
   let service: UserService;
   let validRegisterData: UserRegisterData;
@@ -34,7 +34,7 @@ describe('User Service -> Managing Users', () => {
     jest.clearAllMocks();
   });
 
-  it('When valid data passed to .registerUser, expect to call repository correct method', async () => {
+  it('When valid data passed to .registerUser, expect call to repository .create with correct data', async () => {
     jest
     .spyOn(repositoryMock, 'create')
     .mockImplementation((data: any) => Promise.resolve({
@@ -42,27 +42,9 @@ describe('User Service -> Managing Users', () => {
       ...data 
     }));
 
-    await service.registerUser(validRegisterData);
+    const data = await service.registerUser(validRegisterData);
     expect(repositoryMock.create).toBeCalled();
-  });
-
-  it('When valid data passed to .registerUser, expect to generate login related fields', async () => {
-    jest
-    .spyOn(repositoryMock, 'create')
-    .mockImplementation((data: any) => Promise.resolve({
-      id: faker.random.alphaNumeric(),
-      ...data 
-    }));
-
-    await service.registerUser(validRegisterData);
-
-    expect(repositoryMock.create).toBeCalledWith({
-      nome: validRegisterData.nome,
-      email: validRegisterData.email,
-      hashSenha: expect.any(String),
-      ultimo_login: expect.any(Date),
-      token: expect.any(String),
-      telefones: validRegisterData.telefones,
-    });
+    expect(data.senhaHash).toEqual(expect.any(String));
+    expect(data.token).toEqual(expect.any(String));
   });
 });

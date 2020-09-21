@@ -17,6 +17,13 @@ export interface User {
   nome: string;
   email: string;
   token?: string;
+  telefones: [
+    {
+      numero: string,
+      ddd: string,
+    }
+  ]
+  senhaHash?: string;
   ultimo_login?: string;
   data_criacao?: string;
   data_atualizacao?: string;
