@@ -10,6 +10,6 @@ export class UserService {
   ){ }
 
   async registerUser(data: UserRegisterData): Promise<any> {
-    return;
+    return this.repository.create(data);
   }
 }
