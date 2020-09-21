@@ -2,7 +2,6 @@ import 'reflect-metadata';
 import { Container } from 'inversify';
 import { Types } from '~/core/types';
 
-import '../example/example.controller';
 import '../users/users.controller';
 import { UserService } from '~/users/users.service';
 import { UserRepository } from '~/users/users.repository';
