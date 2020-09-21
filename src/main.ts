@@ -22,5 +22,5 @@ connectToDatabase(process.env.DATABASE_URL || '')
   );
 })
 .catch((error: Error) => {
-  console.log('[ Could not start application ] ', error.name);
+  console.log('[ Could not start application ] \n', { error });
 });

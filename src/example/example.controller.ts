@@ -13,4 +13,9 @@ export class ExampleController {
     const message = await this.exampleService.getHelloMessage();
     return { message };
   }
+
+  @httpGet('/register')
+  async create(): Promise<any> {
+    return this.exampleService.registerExample();
+  }
 }

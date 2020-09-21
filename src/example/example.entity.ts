@@ -1,11 +1,12 @@
-import { Document, SchemaDefinition } from "mongoose";
+import { Document } from "mongoose";
 
-export interface Example extends Document {
+export interface Example {
+  id?: string;
   name: string;
+  created?: string;
+  updated?: string;
 }
 
-export const schemaDefinition: SchemaDefinition = {
-  name: {
-    type: String,
-  }
-};
+export interface ExampleDocument extends Document {
+  name: string;
+}
