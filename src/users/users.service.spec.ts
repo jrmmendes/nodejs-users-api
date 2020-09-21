@@ -6,9 +6,11 @@ import faker from 'faker';
 describe('User Service -> Managing Users', () => {
   let repositoryMock: UserRepository;
   let service: UserService;
+  let validRegisterData: UserRegisterData;
 
   beforeAll(() => {
     faker.setLocale('pt_BR');
+
     repositoryMock = {
       create: jest.fn(),
       save: jest.fn(),
@@ -16,10 +18,8 @@ describe('User Service -> Managing Users', () => {
       findById: jest.fn(),
     } as any;
     service = new UserService(repositoryMock);
-  });
-  
-  it.only('When valid data passed to .create, expect to call repository correct method', async () => {
-    const testData: UserRegisterData = {
+
+    validRegisterData = {
       nome: faker.name.findName(),
       email: faker.internet.email(),
       senha: faker.internet.password(15, false),
@@ -28,15 +28,41 @@ describe('User Service -> Managing Users', () => {
         ddd: "81",
       }],
     };
+  });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('When valid data passed to .registerUser, expect to call repository correct method', async () => {
     jest
-      .spyOn(repositoryMock, 'create')
-      .mockImplementation((data: any) => Promise.resolve({
-        id: faker.random.alphaNumeric(),
-        ...data 
-      }));
+    .spyOn(repositoryMock, 'create')
+    .mockImplementation((data: any) => Promise.resolve({
+      id: faker.random.alphaNumeric(),
+      ...data 
+    }));
 
-    await service.registerUser(testData);
-    expect(repositoryMock.create).toBeCalledWith();
+    await service.registerUser(validRegisterData);
+    expect(repositoryMock.create).toBeCalled();
+  });
+
+  it('When valid data passed to .registerUser, expect to generate login related fields', async () => {
+    jest
+    .spyOn(repositoryMock, 'create')
+    .mockImplementation((data: any) => Promise.resolve({
+      id: faker.random.alphaNumeric(),
+      ...data 
+    }));
+
+    await service.registerUser(validRegisterData);
+
+    expect(repositoryMock.create).toBeCalledWith({
+      nome: validRegisterData.nome,
+      email: validRegisterData.email,
+      hashSenha: expect.any(String),
+      ultimo_login: expect.any(Date),
+      token: expect.any(String),
+      telefones: validRegisterData.telefones,
+    });
   });
 });
