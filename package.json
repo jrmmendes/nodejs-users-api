@@ -16,6 +16,7 @@
     "test:cov": "jest --coverage"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "@types/cors": "^2.8.7",
     "@types/express": "^4.17.8",
     "@types/faker": "^5.1.0",
@@ -23,6 +24,7 @@
     "@types/gulp-nodemon": "^0.0.32",
     "@types/helmet": "^0.0.48",
     "@types/jest": "^26.0.14",
+    "@types/jsonwebtoken": "^8.5.0",
     "@types/mongoose": "^5.7.36",
     "@types/morgan": "^1.9.1",
     "@types/node": "^14.11.1",
@@ -60,15 +62,19 @@
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",
     "preset": "ts-jest",
-    "setupFiles": ["<rootDir>/core/inversify.config.ts"]
+    "setupFiles": [
+      "<rootDir>/core/inversify.config.ts"
+    ]
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "helmet": "^4.1.1",
     "inversify": "^5.0.1",
     "inversify-express-utils": "^6.3.2",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.6",
     "morgan": "^1.10.0",
     "reflect-metadata": "^0.1.13"
