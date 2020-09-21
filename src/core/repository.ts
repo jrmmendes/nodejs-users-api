@@ -14,7 +14,10 @@ export class Repository<Entity, EntityDocument extends Document> {
     const schema = new Schema(schemaDefinition, {
       collection: this.name,
       versionKey: false,
-      timestamps: true,
+      timestamps: {
+        createdAt: 'data_criacao',
+        updatedAt: 'data_atualizacao',
+      }
     });
 
     this.Model = this.dbClient.model<EntityDocument>(this.name, schema);
