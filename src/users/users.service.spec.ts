@@ -47,8 +47,4 @@ describe('User Service', () => {
     expect(data.passwordHash).toEqual(expect.any(String));
     expect(data.token).toEqual(expect.any(String));
   });
-
-  it('When email already exists, expect to throw exception', async () => {
-
-  })
 });

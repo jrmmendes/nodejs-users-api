@@ -43,7 +43,7 @@ export class UserService {
     return this.repository.findAll();
   }
 
-  async findUser({ email }): Promise<UserDocument | null> {
+  async findUser(email: string): Promise<UserDocument | null> {
     return this.repository.findByEmail(email);
   }
 }
