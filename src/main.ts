@@ -1,9 +1,9 @@
 import 'reflect-metadata';
-import { load as loadEnvironment } from '~/core/environment';
-import { bootstrap } from './application';
-import container from '~/core/inversify.config';
 import { connectToDatabase, DatabaseClient } from '~/core/database';
+import { load as loadEnvironment } from '~/core/environment';
+import container from '~/core/inversify.config';
 import { Types } from '~/core/types';
+import { bootstrap } from './application';
 
 loadEnvironment('.env');
 
