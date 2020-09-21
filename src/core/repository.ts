@@ -31,6 +31,10 @@ export class Repository<Entity, EntityDocument extends Document> {
     return this.Model.findById(id);
   }
 
+  async exists(filter: any): Promise<boolean> {
+    return this.Model.exists(filter);
+  }
+
   async create(properties: Entity): Promise<EntityDocument> {
     const instance = new this.Model(properties);
     return this.save(instance);

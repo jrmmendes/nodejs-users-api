@@ -7,6 +7,8 @@ export const connectToDatabase = async (connectionString: string): Promise<Datab
     mongoose.connect(connectionString, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useCreateIndex: true,
+      autoIndex: true,
     });
     mongoose
       .connection
