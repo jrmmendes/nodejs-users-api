@@ -14,10 +14,7 @@ export class Repository<Entity, EntityDocument extends Document> {
     const schema = new Schema(schemaDefinition, {
       collection: this.name,
       versionKey: false,
-      timestamps: {
-        createdAt: 'data_criacao',
-        updatedAt: 'data_atualizacao',
-      }
+      timestamps: true,
     });
 
     this.Model = this.dbClient.model<EntityDocument>(this.name, schema);
@@ -27,7 +24,7 @@ export class Repository<Entity, EntityDocument extends Document> {
     return this.Model.find();
   }
 
-  async findByID(id: string): Promise<EntityDocument | null> {
+  async findById(id: string): Promise<EntityDocument | null> {
     return this.Model.findById(id);
   }
 
