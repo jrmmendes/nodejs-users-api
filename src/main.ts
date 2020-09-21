@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { load as loadEnvironment } from '~/core/environment';
 import { bootstrap } from './application';
 import container from '~/core/inversify.config';
