@@ -38,7 +38,7 @@ describe('User Service', () => {
     jest
     .spyOn(repositoryMock, 'create')
     .mockImplementation((data: any) => Promise.resolve({
-      id: faker.random.alphaNumeric(),
+      _id: faker.random.alphaNumeric(),
       ...data 
     }));
 
@@ -47,4 +47,8 @@ describe('User Service', () => {
     expect(data.senhaHash).toEqual(expect.any(String));
     expect(data.token).toEqual(expect.any(String));
   });
+
+  it('When email already exists, expect to throw exception', async () => {
+
+  })
 });

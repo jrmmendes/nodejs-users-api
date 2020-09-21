@@ -1,10 +1,10 @@
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-
 import { inject, injectable } from "inversify";
+import jwt from 'jsonwebtoken';
 import { Types } from "~/core/types";
-import { UserRegisterData } from "./users.entity";
+import { UserDocument, UserRegisterData } from "./users.entity";
 import { UserRepository } from "./users.repository";
+
 
 @injectable()
 export class UserService {
@@ -12,7 +12,11 @@ export class UserService {
     @inject(Types.UserRepository) private repository: UserRepository,
   ){ }
 
-  async registerUser(data: UserRegisterData): Promise<any> {
+  async isEmailRegistered(email: string): Promise<boolean> {
+    return this.repository.exists({ email });
+  }
+
+  async registerUser(data: UserRegisterData): Promise<UserDocument> {
     const senhaHash = await bcrypt.hash(data.senha, 10);
     const token = jwt.sign(
       { email: data.email },
@@ -27,5 +31,8 @@ export class UserService {
       senhaHash,
       token,
     });
+  }
+  async list(): Promise<UserDocument[]> {
+    return this.repository.findAll();
   }
 }
