@@ -5,7 +5,7 @@ type PhoneNumber = {
   ddd: string,
 }
 
-export interface UserRegisterData {
+export interface UserRegistrationData {
   nome: string;
   email: string;
   senha: string;
@@ -18,14 +18,14 @@ export interface UserCredentials {
 }
 
 export interface User {
-  nome: string;
+  name: string;
   email: string;
-  token?: string;
-  telefones: PhoneNumber[]
-  senhaHash?: string;
-  ultimo_login?: string;
-  data_criacao?: string;
-  data_atualizacao?: string;
+  token: string;
+  phoneNumbers: PhoneNumber[]
+  passwordHash: string;
+  lastLogin?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export type UserDocument = User & Document;

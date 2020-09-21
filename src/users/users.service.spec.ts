@@ -1,12 +1,12 @@
 import faker from 'faker';
-import { UserRegisterData } from "./users.entity";
+import { UserRegistrationData } from "./users.entity";
 import { UserRepository } from "./users.repository";
 import { UserService } from "./users.service";
 
 describe('User Service', () => {
   let repositoryMock: UserRepository;
   let service: UserService;
-  let validRegisterData: UserRegisterData;
+  let validRegisterData: UserRegistrationData;
 
   beforeAll(() => {
     faker.setLocale('pt_BR');
@@ -44,7 +44,7 @@ describe('User Service', () => {
 
     const data = await service.registerUser(validRegisterData);
     expect(repositoryMock.create).toBeCalled();
-    expect(data.senhaHash).toEqual(expect.any(String));
+    expect(data.passwordHash).toEqual(expect.any(String));
     expect(data.token).toEqual(expect.any(String));
   });
 

@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import { inject, injectable } from "inversify";
 import jwt from 'jsonwebtoken';
 import { Types } from "~/core/types";
-import { UserDocument, UserRegisterData } from "./users.entity";
+import { UserCredentials, UserDocument, UserRegistrationData } from "./users.entity";
 import { UserRepository } from "./users.repository";
 
 
@@ -16,7 +16,14 @@ export class UserService {
     return this.repository.exists({ email });
   }
 
-  async registerUser(data: UserRegisterData): Promise<UserDocument> {
+  async getUserFromCredentials({ email, password }: UserCredentials): Promise<UserDocument | void> {
+    const user = await this.repository.findByEmail(email);
+    if (user && bcrypt.compare(password, user.passwordHash)) {
+      return user;
+    }
+  }
+
+  async registerUser(data: UserRegistrationData): Promise<UserDocument> {
     const senhaHash = await bcrypt.hash(data.senha, 10);
     const token = jwt.sign(
       { email: data.email },
@@ -25,14 +32,18 @@ export class UserService {
     )
       
     return this.repository.create({
-      nome: data.nome,
+      name: data.nome,
       email: data.email,
-      telefones: data.telefones,
-      senhaHash,
+      phoneNumbers: data.telefones,
+      passwordHash: senhaHash,
       token,
     });
   }
   async list(): Promise<UserDocument[]> {
     return this.repository.findAll();
+  }
+
+  async findUser({ email }): Promise<UserDocument | null> {
+    return this.repository.findByEmail(email);
   }
 }
