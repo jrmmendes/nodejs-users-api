@@ -23,6 +23,14 @@ No arquivo `.env`, dentro da raiz do projeto, é necessário inserir algumas con
 
 > Em produção, essas constantes devem ser inseridas diretamente no host.
 
+## Banco de Dados
+Caso deseje subir uma instância do mongodb rapidamente, é possível utilizar o Docker Compose, juntamente com o arquivo de configuração disponibilizado neste projeto - `db.compose.yml`. Para isso, execute:
+```
+docker-compose -f db.compose.yml up mongo -d
+```
+Na pasta raiz do projeto.
+
+> Uma alternativa é utilizar o MongoDB Atlas.
 ---
 
 # Licença
