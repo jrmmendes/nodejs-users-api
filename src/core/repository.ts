@@ -3,7 +3,7 @@ import { Document, Model, Mongoose, Schema, SchemaDefinition } from "mongoose";
 import { Types } from "./types";
 
 @injectable()
-export class Repository<EntityDocument extends Document> {
+export class Repository<Entity, EntityDocument extends Document> {
   protected Model: Model<EntityDocument>;
 
   constructor(
@@ -11,7 +11,12 @@ export class Repository<EntityDocument extends Document> {
     @unmanaged() private name: string,
     @unmanaged() schemaDefinition: SchemaDefinition,
   ) {
-    const schema = new Schema(schemaDefinition, { collection: this.name })
+    const schema = new Schema(schemaDefinition, {
+      collection: this.name,
+      versionKey: false,
+      timestamps: true,
+    });
+
     this.Model = this.dbClient.model<EntityDocument>(this.name, schema);
   }
 
@@ -21,6 +26,11 @@ export class Repository<EntityDocument extends Document> {
 
   async findByID(id: string): Promise<EntityDocument | null> {
     return this.Model.findById(id);
+  }
+
+  async create(properties: Entity): Promise<EntityDocument> {
+    const instance = new this.Model(properties);
+    return this.save(instance);
   }
 
   async save(doc: EntityDocument): Promise<EntityDocument> {
