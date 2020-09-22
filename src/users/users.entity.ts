@@ -20,7 +20,7 @@ export interface UserCredentials {
 export interface User {
   name: string;
   email: string;
-  token: string;
+  token?: string;
   phoneNumbers: PhoneNumber[]
   passwordHash: string;
   lastLogin?: string;

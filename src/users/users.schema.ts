@@ -1,7 +1,7 @@
 import { Schema, SchemaDefinition } from "mongoose";
 
 export const UserSchema: SchemaDefinition = {
-  nome: {
+  name: {
     type: String,
     required: true,
   },
@@ -10,14 +10,14 @@ export const UserSchema: SchemaDefinition = {
     required: true,
     unique: true,
   },
-  senhaHash: {
+  passwordHash: {
     type: String,
     required: true,
     select: false,
   },
-  telefones: [
+  phoneNumbers: [
     new Schema({
-      numero: {
+      number: {
         type: String,
         required: true,
       },
@@ -27,12 +27,11 @@ export const UserSchema: SchemaDefinition = {
       },
     }, { _id: false }),
   ],
-  ultimo_login: {
+  lastLogin: {
     type: Date,
     default: Date.now,
   },
   token: {
     type: String,
-    required: true,
   }
 };
