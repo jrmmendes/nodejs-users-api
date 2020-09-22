@@ -34,11 +34,10 @@ export class Repository<Entity, EntityDocument extends Document> {
 
   async create(properties: Entity): Promise<EntityDocument> {
     const instance = new this.Model(properties);
-    return this.save(instance);
+    return instance.save();
   }
 
-  async save(doc: EntityDocument): Promise<EntityDocument> {
-    const instance = new this.Model(doc);
+  async save(instance: EntityDocument) {
     return instance.save();
   }
 
