@@ -31,10 +31,10 @@ export class UserService {
     if (!user) {
       return;
     }
-    const isPasswordValid = await bcrypt.compare(password, user!.passwordHash);
+    const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
     if (isPasswordValid) {
       user.lastLogin = Date.now().toString();
-      return user.save();
+      return this.repository.save(user);
     }
   }
 
