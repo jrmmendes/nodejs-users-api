@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import { Container } from 'inversify';
 import { InversifyExpressServer } from 'inversify-express-utils';
 import morgan from 'morgan';
+import bearerToken from 'express-bearer-token';
 
 export const bootstrap = (container: Container): Application => {
   const app = new InversifyExpressServer(container);
@@ -13,6 +14,7 @@ export const bootstrap = (container: Container): Application => {
     app.use(helmet());
     app.use(morgan('dev'));
     app.use(express.json());
+    app.use(bearerToken({ reqKey: 'token' }));
   });
 
   return app.build();
