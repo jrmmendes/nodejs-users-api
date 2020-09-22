@@ -17,8 +17,14 @@ describe('User endpoint tests', () => {
     faker.setLocale('pt_BR');
 
     repositoryMock = {
-      create: jest.fn(),
-      save: jest.fn(),
+      create: jest.fn().mockImplementation((data: any) => Promise.resolve({
+        _id: faker.random.alphaNumeric(),
+        ...data,
+        lastLogin: new Date(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      })),
+      save: jest.fn().mockImplementation((document: any) => Promise.resolve(document)),
       exists: jest.fn(),
       findAll: jest.fn(),
       findById: jest.fn(),
@@ -47,13 +53,22 @@ describe('User endpoint tests', () => {
       }],
     };
 
-    it('When passed email is not available, expect 400 and error message', async () => {
+    it('When email is not available, expect 400 and error message', async () => {
       jest.spyOn(repositoryMock, 'exists').mockResolvedValue(true);
 
       const response = await http(app).post('/users/sign-up').send(testData);
 
       expect(response.status).toBe(400);
       expect(response.body.mensagem).toBe('E-mail já existente');
+    });
+
+    it('When email is available, expect 201 and created user data', async () => {
+      jest.spyOn(repositoryMock, 'exists').mockResolvedValue(false);
+
+      const response = await http(app).post('/users/sign-up').send(testData);
+
+      expect(response.status).toBe(201);
+      expect(repositoryMock.create).toBeCalledTimes(1);
     });
   });
 
