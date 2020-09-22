@@ -4,8 +4,10 @@ import { BaseHttpController, controller, httpGet, httpPost, requestBody, respons
 import { JsonResult } from "inversify-express-utils/dts/results";
 import { authMiddleware } from "~/core/auth.middleware";
 import { Types } from "~/core/types";
+import { validationMiddleware } from "~/core/validation.middleware";
 import { UserDocument, UserRegistrationData } from "./users.entity";
 import { UserService } from "./users.service";
+import { signInCredentials, signUpData } from "./users.validators";
 
 @controller('/users')
 export class UserControler extends BaseHttpController {
@@ -28,7 +30,7 @@ export class UserControler extends BaseHttpController {
     }
   }
 
-  @httpPost('/sign-up')
+  @httpPost('/sign-up', validationMiddleware(signUpData))
     async signUp(@requestBody() data: UserRegistrationData): Promise<JsonResult> {
     if (await this.service.isEmailRegistered(data.email)) {
       return this.json({ mensagem: 'E-mail já existente' }, 400);
@@ -41,7 +43,7 @@ export class UserControler extends BaseHttpController {
     return this.json(this.serializeUserData(user), 201);
   }
 
-  @httpPost('/sign-in')
+  @httpPost('/sign-in', validationMiddleware(signInCredentials))
   async signIn(@requestBody() credentials: { email: string, senha: string }): Promise<JsonResult> {
     const { email, senha: password } = credentials;
     const user = await this

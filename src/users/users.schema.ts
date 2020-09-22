@@ -34,3 +34,4 @@ export const UserSchema: SchemaDefinition = {
     type: String,
   }
 };
+
