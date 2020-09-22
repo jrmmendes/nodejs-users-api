@@ -62,12 +62,4 @@ export class UserService {
     user.token = await this.generateJwtToken(user, '30min');
     return this.repository.save(user);
   }
-
-  async list(): Promise<UserDocument[]> {
-    return this.repository.findAll();
-  }
-
-  async findUser(email: string): Promise<UserDocument | null> {
-    return this.repository.findOne({ email });
-  }
 }
