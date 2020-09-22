@@ -13,7 +13,6 @@ export const UserSchema: SchemaDefinition = {
   passwordHash: {
     type: String,
     required: true,
-    select: false,
   },
   phoneNumbers: [
     new Schema({

@@ -28,7 +28,11 @@ export class UserService {
 
   async getUserFromCredentials({ email, password }: UserCredentials): Promise<UserDocument | void> {
     const user = await this.repository.findByEmail(email);
-    if (user && bcrypt.compare(password, user.passwordHash)) {
+    if (!user) {
+      return;
+    }
+    const isPasswordValid = await bcrypt.compare(password, user!.passwordHash);
+    if (isPasswordValid) {
       user.lastLogin = Date.now().toString();
       return user.save();
     }
@@ -40,7 +44,11 @@ export class UserService {
     const user = await this.repository.create({
       name: data.nome,
       email: data.email,
-      phoneNumbers: data.telefones,
+      phoneNumbers: data.telefones.map(telefone => ({
+        number: telefone.numero,
+        ddd: telefone.ddd,
+      })),
+
       passwordHash,
     });
 

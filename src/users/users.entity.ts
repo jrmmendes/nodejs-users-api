@@ -1,15 +1,11 @@
 import { Document } from "mongoose";
 
-type PhoneNumber = {
-  numero: string,
-  ddd: string,
-}
-
+type Telefone = { numero: string, ddd: string };
 export interface UserRegistrationData {
   nome: string;
   email: string;
   senha: string;
-  telefones: PhoneNumber[]
+  telefones: Telefone[],
 }
 
 export interface UserCredentials {
@@ -17,11 +13,12 @@ export interface UserCredentials {
   password: string;
 }
 
+type PhoneNumber = { number: string, ddd: string };
 export interface User {
   name: string;
   email: string;
   token?: string;
-  phoneNumbers: PhoneNumber[]
+  phoneNumbers: PhoneNumber[],
   passwordHash: string;
   lastLogin?: string;
   createdAt?: string;

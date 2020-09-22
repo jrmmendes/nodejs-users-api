@@ -1,5 +1,5 @@
 import { inject } from "inversify";
-import { BaseHttpController, controller, httpPost, requestBody } from "inversify-express-utils";
+import { BaseHttpController, controller, httpGet, httpPost, requestBody } from "inversify-express-utils";
 import { JsonResult } from "inversify-express-utils/dts/results";
 import { Types } from "~/core/types";
 import { UserCredentials, UserDocument, UserRegistrationData } from "./users.entity";
@@ -28,7 +28,7 @@ export class UserControler extends BaseHttpController {
 
   @httpPost('/sign-up')
     async signUp(@requestBody() data: UserRegistrationData): Promise<JsonResult> {
-    if (this.service.isEmailRegistered(data.email)) {
+    if (await this.service.isEmailRegistered(data.email)) {
       return this.json({ mensagem: 'E-mail já existente' }, 400);
     }
 
@@ -40,11 +40,24 @@ export class UserControler extends BaseHttpController {
   }
 
   @httpPost('/sign-in')
-  async signIn(@requestBody() credentials: UserCredentials): Promise<JsonResult> {
-    const user = await this.service.getUserFromCredentials(credentials);
+  async signIn(@requestBody() credentials: { email: string, senha: string }): Promise<JsonResult> {
+    const { email, senha: password } = credentials;
+    const user = await this
+      .service
+      .getUserFromCredentials({ email, password });
+
     if (!user) {
       return this.json({ mensagem: 'Usuário e/ou senha inválidos' }, 401);
     }
     return this.json(this.serializeUserData(user), 200);
+  }
+
+  @httpGet('/listar-usuarios')
+  async listUsers(): Promise<JsonResult> {
+    const users = await this.service.list();
+    return this.json(
+      users.map(
+        user => this.serializeUserData(user)
+      ), 200)
   }
 }
