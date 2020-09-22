@@ -1,4 +1,3 @@
-import { NextFunction, Request, Response } from 'express';
 import { authMiddleware } from './core/auth.middleware';
 import container from './core/inversify.config';
 import { Types } from './core/types';
