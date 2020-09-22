@@ -90,11 +90,34 @@ describe('Middleware Tests', () => {
       expect(next).not.toBeCalled();
     });
 
-    it('When token valid and user found, expect to set res.locals.user ', async () => {
+    it('When user last login is more than 30min ago, expect send response with 401 and error message ', async () => {
       const { res, next } = getHttpMocks();
       const req = { token: 'anything', params: { id: 'anything' } } as any;
+
+      const lastLogin = new Date();
+      lastLogin.setMinutes(lastLogin.getMinutes() - 30);
+
       const testUser = {
-        lastLogin: new Date(),
+        lastLogin,
+      } as any;
+      jest.spyOn(usersServiceMock, 'getUserFromJwtToken').mockResolvedValue(testUser);
+
+      await authMiddleware(req, res, next);
+
+      expect(res.status).toBeCalledWith(401);
+      expect(res.send).toBeCalledWith({ mensagem: 'Sessão inválida' });
+      expect(next).not.toBeCalled();
+    });
+
+    it('When last login is less than 30min ago, token and ID are valid, expect to set locals.user and call next', async () => {
+      const { res, next } = getHttpMocks();
+      const req = { token: 'anything', params: { id: 'anything' } } as any;
+
+      const lastLogin = new Date();
+      lastLogin.setMinutes(lastLogin.getMinutes() - 29);
+
+      const testUser = {
+        lastLogin,
       } as any;
       jest.spyOn(usersServiceMock, 'getUserFromJwtToken').mockResolvedValue(testUser);
 

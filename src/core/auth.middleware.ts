@@ -19,7 +19,7 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     Date.now() - user.lastLogin.getTime()
   ) / 60000;
 
-  if (minutesSinceLastLogin > 30) {
+  if (minutesSinceLastLogin >= 30) {
     return res.status(401).send({ mensagem: 'Sessão inválida' });
   }
 
