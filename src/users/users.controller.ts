@@ -29,10 +29,13 @@ export class UserControler extends BaseHttpController {
   @httpPost('/sign-up')
     async signUp(@requestBody() data: UserRegistrationData): Promise<JsonResult> {
     if (this.service.isEmailRegistered(data.email)) {
-      return this.json({ mensagem: 'E-mail já existente' }, 401);
+      return this.json({ mensagem: 'E-mail já existente' }, 400);
     }
 
-    const user = await this.service.registerUser(data);
+    const user = await this
+      .service
+      .registerUser(data);
+
     return this.json(this.serializeUserData(user), 201);
   }
 

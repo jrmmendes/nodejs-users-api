@@ -34,12 +34,19 @@ describe('User Service', () => {
     jest.clearAllMocks();
   });
 
-  it('When valid data passed to .registerUser, expect call to repository .create with correct data', async () => {
+  it('When valid data passed to user registration service, expect to call repository with correct data', async () => {
     jest
     .spyOn(repositoryMock, 'create')
     .mockImplementation((data: any) => Promise.resolve({
       _id: faker.random.alphaNumeric(),
-      ...data 
+      ...data
+    }));
+
+    jest
+    .spyOn(repositoryMock, 'save')
+    .mockImplementation((document: any) => Promise.resolve({
+      ...document,
+      lastUpdate: Date.now,
     }));
 
     const data = await service.registerUser(validRegisterData);

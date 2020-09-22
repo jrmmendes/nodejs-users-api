@@ -16,29 +16,38 @@ export class UserService {
     return this.repository.exists({ email });
   }
 
+  async generateJwtToken(user: UserDocument, expiresIn: string): Promise<string> {
+    const token = jwt.sign(
+      { userId: user._id },
+      process.env.APP_SECRET || 'defaultsecret',
+      { expiresIn }
+    );
+
+    return bcrypt.hash(token, 10);
+  }
+
   async getUserFromCredentials({ email, password }: UserCredentials): Promise<UserDocument | void> {
     const user = await this.repository.findByEmail(email);
     if (user && bcrypt.compare(password, user.passwordHash)) {
-      return user;
+      user.lastLogin = Date.now().toString();
+      return user.save();
     }
   }
 
   async registerUser(data: UserRegistrationData): Promise<UserDocument> {
-    const senhaHash = await bcrypt.hash(data.senha, 10);
-    const token = jwt.sign(
-      { email: data.email },
-      process.env.APP_SECRET || 'secret',
-      { expiresIn: '30min' },
-    )
+    const passwordHash = await bcrypt.hash(data.senha, 10);
       
-    return this.repository.create({
+    const user = await this.repository.create({
       name: data.nome,
       email: data.email,
       phoneNumbers: data.telefones,
-      passwordHash: senhaHash,
-      token,
+      passwordHash,
     });
+
+    user.token = await this.generateJwtToken(user, '30min');
+    return this.repository.save(user);
   }
+
   async list(): Promise<UserDocument[]> {
     return this.repository.findAll();
   }
