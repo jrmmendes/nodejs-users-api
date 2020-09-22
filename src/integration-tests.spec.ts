@@ -22,7 +22,7 @@ describe('User endpoint tests', () => {
       exists: jest.fn(),
       findAll: jest.fn(),
       findById: jest.fn(),
-      findByEmail: jest.fn(),
+      findOne: jest.fn(),
     } as any;
 
     container

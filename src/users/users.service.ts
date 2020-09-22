@@ -34,7 +34,7 @@ export class UserService {
   }
 
   async getUserFromCredentials({ email, password }: UserCredentials): Promise<UserDocument | void> {
-    const user = await this.repository.findByEmail(email);
+    const user = await this.repository.findOne({ email });
     if (!user) {
       return;
     }
@@ -68,6 +68,6 @@ export class UserService {
   }
 
   async findUser(email: string): Promise<UserDocument | null> {
-    return this.repository.findByEmail(email);
+    return this.repository.findOne({ email });
   }
 }

@@ -15,12 +15,4 @@ export class UserRepository extends Repository<User, UserDocument> {
       UserSchema,
     );
   }
-
-  async findByEmail(email: string): Promise<UserDocument | null> {
-    return this.Model.findOne({ email });
-  }
-
-  async findByToken(token: string): Promise<UserDocument | null> {
-    return this.Model.findOne({ token });
-  }
 }

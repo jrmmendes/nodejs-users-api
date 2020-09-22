@@ -1,5 +1,5 @@
 import { inject, injectable, unmanaged } from "inversify";
-import { Document, Model, Mongoose, Schema, SchemaDefinition } from "mongoose";
+import { Document, FilterQuery, Model, Mongoose, Schema, SchemaDefinition } from "mongoose";
 import { Types } from "./types";
 
 @injectable()
@@ -27,8 +27,10 @@ export class Repository<Entity, EntityDocument extends Document> {
   async findById(id: string): Promise<EntityDocument | null> {
     return this.Model.findById(id);
   }
-
-  async exists(filter: any): Promise<boolean> {
+  async findOne(filter: FilterQuery<EntityDocument>): Promise<EntityDocument | null> {
+    return this.Model.findOne(filter);
+  }
+  async exists(filter: FilterQuery<EntityDocument>): Promise<boolean> {
     return this.Model.exists(filter);
   }
 

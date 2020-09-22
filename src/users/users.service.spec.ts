@@ -22,8 +22,7 @@ describe('User Service', () => {
         lastUpdate: Date.now,
       })),
       findAll: jest.fn(),
-      findById: jest.fn(),
-      findByEmail: jest.fn(),
+      findOne: jest.fn(),
     } as any;
     service = new UserService(repositoryMock);
 
@@ -59,7 +58,7 @@ describe('User Service', () => {
 
     it('When valid email and password, expect to return user and update fields', async () => {
       const oldLastLogin = faker.date.recent(3);
-      jest.spyOn(repositoryMock, 'findByEmail').mockResolvedValue({
+      jest.spyOn(repositoryMock, 'findOne').mockResolvedValue({
         name: faker.name.findName(),
         phoneNumbers: [],
         email: testCredentials.email,
@@ -74,14 +73,14 @@ describe('User Service', () => {
     });
 
     it('When invalid email, expect to return nothing', async () => {
-      jest.spyOn(repositoryMock, 'findByEmail').mockResolvedValue(null);
+      jest.spyOn(repositoryMock, 'findOne').mockResolvedValue(null);
 
       const user = await service.getUserFromCredentials(testCredentials);
       expect(user).not.toBeDefined();
     });
 
     it('When invalid password, expect to return nothing', async () => {
-      jest.spyOn(repositoryMock, 'findByEmail').mockResolvedValue({
+      jest.spyOn(repositoryMock, 'findOne').mockResolvedValue({
         name: faker.name.findName(),
         phoneNumbers: [],
         email: testCredentials.email,
