@@ -14,6 +14,7 @@ export interface UserCredentials {
 }
 
 type PhoneNumber = { number: string, ddd: string };
+
 export interface User {
   name: string;
   email: string;

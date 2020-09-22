@@ -1,0 +1,129 @@
+openapi: "3.0.0"
+info:
+  title: "Desafio Concrete"
+  version: 1.0
+  contact:
+    name: "Junior"
+    url: "https://mendes.software"
+    email: "jrmmendes@outlook.com"
+paths:
+  /users/sign-up:
+    post:
+      tags:
+       - Users
+      summary: Registrar um novo usuário
+      description: Registrar um novo usuário na plataforma. Também retorna um token de acesso válido.
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user" 
+        "400":
+          description: "Email já existente"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                nome:
+                  type: string
+                  example: 'Luke Skywalker'
+                email:
+                  type: string
+                  example: 'Luke@jedi.com'
+                senha:
+                  type: string
+                  example: 'lights1d3'
+                telefones:
+                  items:
+                    properties:
+                      numero:
+                        type: string
+                        example: "99228833"
+                      ddd:
+                        type: string
+                        example: "81"
+  /users/sing-in:
+    post:
+      tags:
+      - Users
+      summary: Realizar login
+      description: Caso as credenciais informadas sejam válidas, retorna os dados do usuário.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  type: string
+                  example: luke@jedi.com
+                senha:
+                  type: string
+                  example: 'lights1d3'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+        "401":
+          description: "Email ou senha inválidos"
+
+  /users/buscar-usuario/{userId}:
+    get:
+      security:
+        - bearerAuth: []
+      tags: 
+      - Users
+      summary: Busca o atual usuário caso token e ID estejam corretos
+      parameters:
+        - name: userId
+          in: path
+          description: ID do usuário atual
+          required: true
+          schema:
+            type: integer
+            format: int64
+      
+externalDocs:
+  description: Repositório no Github 
+  url: http://github.com/jrmmendes/nodejs-users-api
+  
+components:
+  securitySchemes:
+      bearerAuth:
+        type: http
+        scheme: bearer
+        bearerFormat: JWT
+  schemas:
+    user:
+      properties:
+        nome:
+          type: string
+          example: 'Luke Skywalker'
+        email:
+          type: string
+          example: 'Luke@jedi.com'
+        senha:
+          type: string
+          example: 'Luke@jedi.com'
+        telefones:
+          items:
+            properties:
+              numero:
+                type: string
+                example: "99228833"
+              ddd:
+                type: string
+        token: 
+          type: string
+          example: "44516543145613.123123.asdasd3h!&"
+        ultimo_login:
+          type: string 
+        data_criacao: 
+          type: string
+        data_atualizacao:
+          type: string 
