@@ -59,6 +59,7 @@ export class UserControler extends BaseHttpController {
 
   @httpGet('/buscar-usuario/:id', authMiddleware)
   async searchUser(@response() response: Response): Promise<JsonResult> {
-    return this.json(response.locals.user, 200);
+    const { user: userData } = response.locals;
+    return this.json(this.serializeUserData(userData), 200);
   }
 }

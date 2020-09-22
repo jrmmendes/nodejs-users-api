@@ -7,7 +7,6 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
   const userService = container.get<UserService>(Types.UserService);
   const { token } = req;
 
-  console.log(token);
   if (!token) {
     return res.status(401).send({ mensagem: 'Não autorizado' });
   }
