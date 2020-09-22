@@ -45,7 +45,7 @@ paths:
                       ddd:
                         type: string
                         example: "81"
-  /users/sing-in:
+  /users/sign-in:
     post:
       tags:
       - Users
