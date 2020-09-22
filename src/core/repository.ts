@@ -37,7 +37,7 @@ export class Repository<Entity, EntityDocument extends Document> {
     return instance.save();
   }
 
-  async save(instance: EntityDocument) {
+  async save(instance: EntityDocument): Promise<EntityDocument> {
     return instance.save();
   }
 
