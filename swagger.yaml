@@ -85,9 +85,16 @@ paths:
           description: ID do usuário atual
           required: true
           schema:
-            type: integer
-            format: int64
-      
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+        "401":
+          description: "Token inválido ou sessão expirada"
+
 externalDocs:
   description: Repositório no Github 
   url: http://github.com/jrmmendes/nodejs-users-api
