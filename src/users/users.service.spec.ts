@@ -22,6 +22,7 @@ describe('User Service', () => {
         lastUpdate: Date.now,
       })),
       findAll: jest.fn(),
+      findById: jest.fn(),
       findOne: jest.fn(),
     } as any;
     service = new UserService(repositoryMock);
@@ -89,6 +90,32 @@ describe('User Service', () => {
 
       const user = await service.getUserFromCredentials(testCredentials);
       expect(user).not.toBeDefined();
+    });
+
+    it('When token and ID are valid and token is equal to user token, expect to return user', async () => {
+      const testUser = {
+        _id: faker.random.alphaNumeric(),
+        token: faker.random.alphaNumeric(),
+        name: faker.name.findName(),
+      }
+      jest.spyOn(repositoryMock, 'findById').mockResolvedValue(testUser as any);
+
+      const user = await service.getUserFromJwtToken(testUser._id, testUser.token);
+
+      expect(repositoryMock.findById).toBeCalled();
+      expect(user).toBe(testUser);
+    });
+
+    it('When token is different to user token, expect to return nothing', async () => {
+      const testUser = {
+        _id: faker.random.alphaNumeric(),
+        token: faker.random.alphaNumeric(6),
+        name: faker.name.findName(),
+      }
+      jest.spyOn(repositoryMock, 'findById').mockResolvedValue(testUser as any);
+
+      const user = await service.getUserFromJwtToken(testUser._id, faker.random.alphaNumeric(5));
+      expect(user).toBeUndefined();
     });
   });
 });
