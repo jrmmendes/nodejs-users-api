@@ -7,7 +7,7 @@ import { UserRepository } from './users/users.repository';
 import container from './core/inversify.config';
 import { Types } from './core/types';
 import { Application } from 'express';
-import { UserDocument } from './users/users.entity';
+import { UserDocument, UserRegistrationData } from './users/users.entity';
 
 describe('User endpoint tests', () => {
   let repositoryMock: UserRepository;
@@ -34,6 +34,27 @@ describe('User endpoint tests', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+  });
+
+  describe('User Sign-Up', () => {
+    const testData: UserRegistrationData = {
+      nome: faker.name.findName(),
+      email: faker.internet.email('user'),
+      senha: faker.internet.password(15, false),
+      telefones: [{
+        numero: '911224455',
+        ddd: '81',
+      }],
+    };
+
+    it('When passed email is not available, expect 400 and error message', async () => {
+      jest.spyOn(repositoryMock, 'exists').mockResolvedValue(true);
+
+      const response = await http(app).post('/users/sign-up').send(testData);
+
+      expect(response.status).toBe(400);
+      expect(response.body.mensagem).toBe('E-mail já existente');
+    });
   });
 
   describe('User Sign-In', () => {
