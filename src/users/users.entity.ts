@@ -20,7 +20,7 @@ export interface User {
   token?: string;
   phoneNumbers: PhoneNumber[],
   passwordHash: string;
-  lastLogin?: string;
+  lastLogin: Date;
   createdAt?: string;
   updatedAt?: string;
 }

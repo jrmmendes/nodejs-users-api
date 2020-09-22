@@ -1,8 +1,10 @@
+import { Response } from "express";
 import { inject } from "inversify";
-import { BaseHttpController, controller, httpGet, httpPost, requestBody } from "inversify-express-utils";
+import { BaseHttpController, controller, httpGet, httpPost, requestBody, response } from "inversify-express-utils";
 import { JsonResult } from "inversify-express-utils/dts/results";
+import { authMiddleware } from "~/core/auth.middleware";
 import { Types } from "~/core/types";
-import { UserCredentials, UserDocument, UserRegistrationData } from "./users.entity";
+import { UserDocument, UserRegistrationData } from "./users.entity";
 import { UserService } from "./users.service";
 
 @controller('/users')
@@ -47,17 +49,16 @@ export class UserControler extends BaseHttpController {
       .getUserFromCredentials({ email, password });
 
     if (!user) {
-      return this.json({ mensagem: 'Usuário e/ou senha inválidos' }, 401);
+      return this.json({
+        mensagem: 'Usuário e/ou senha inválidos'
+      }, 401);
     }
+    user.token = await this.service.generateJwtToken(user, '30min');
     return this.json(this.serializeUserData(user), 200);
   }
 
-  @httpGet('/listar-usuarios')
-  async listUsers(): Promise<JsonResult> {
-    const users = await this.service.list();
-    return this.json(
-      users.map(
-        user => this.serializeUserData(user)
-      ), 200)
+  @httpGet('/buscar-usuario/:id', authMiddleware)
+  async searchUser(@response() response: Response): Promise<JsonResult> {
+    return this.json(response.locals.user, 200);
   }
 }

@@ -26,6 +26,13 @@ export class UserService {
     return bcrypt.hash(token, 10);
   }
 
+  async getUserFromJwtToken(id: string, token: string): Promise<UserDocument | void> {
+    const user = await this.repository.findById(id);
+    if (user && user.token === token) {
+      return user;
+    }
+  }
+
   async getUserFromCredentials({ email, password }: UserCredentials): Promise<UserDocument | void> {
     const user = await this.repository.findByEmail(email);
     if (!user) {
@@ -33,7 +40,7 @@ export class UserService {
     }
     const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
     if (isPasswordValid) {
-      user.lastLogin = Date.now().toString();
+      user.lastLogin = new Date();
       return this.repository.save(user);
     }
   }
@@ -48,7 +55,7 @@ export class UserService {
         number: telefone.numero,
         ddd: telefone.ddd,
       })),
-
+      lastLogin: new Date(),
       passwordHash,
     });
 
